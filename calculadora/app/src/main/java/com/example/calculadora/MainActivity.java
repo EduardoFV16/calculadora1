@@ -85,10 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         if (buttonText.equals("c")) {
-            dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
+            if (!dataToCalculate.equals("0")) {
+                dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
+            }
         } else {
             dataToCalculate = dataToCalculate + buttonText;
         }
+
 
         solucionV.setText(dataToCalculate);
         String finalResult = getResult(dataToCalculate);
