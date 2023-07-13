@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!finalResult.equals("Error"))
             resultadoV.setText(finalResult);
+        else
+            resultadoV.setText("");
     }
 
     String getResult(String data) {
@@ -105,13 +107,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Context context = Context.enter();
             context.setOptimizationLevel(-1);
             Scriptable scriptable = context.initSafeStandardObjects();
-            String finalResult = context.evaluateString(scriptable, data, "Javascript", 1, null).toString();
-            if(finalResult.endsWith(".0")){
-                finalResult = finalResult.replace(".0","");
+            Object result = context.evaluateString(scriptable, data, "Javascript", 1, null);
+
+            String finalResult;
+            if (result == null || result == Context.getUndefinedValue()) {
+                finalResult = "";
+            } else {
+                finalResult = Context.toString(result);
+                if (finalResult.endsWith(".0")) {
+                    finalResult = finalResult.replace(".0", "");
+                }
             }
+
             return finalResult;
         } catch (Exception e) {
             return "Error";
         }
     }
+
 }
